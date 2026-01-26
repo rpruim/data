@@ -1,0 +1,47 @@
+---
+title: Some Data Sets
+date: last-modified
+format: 
+  html:
+    theme: yeti
+execute: 
+  echo: false
+  warning: false
+embed-resources: true
+---
+
+```{r}
+#| include: false
+library(here)
+library(dplyr)
+library(gt)
+
+FileData <-
+  tibble::tibble(
+    file = dir(here("docs"), pattern = "*.csv$"),
+    meta_file = sub("\\.csv$", ".html", file),
+    meta_exists = file.exists(here("docs", "meta", meta_file)),
+    metadata = case_when(
+      meta_exists ~ paste0("[Metadata](", "meta/", meta_file, ")"),
+      !meta_exists ~ "N/A"
+    ),
+    dataset = paste0("[", file, "](", file, ")")
+  ) |>
+  mutate()
+```
+
+```{r}
+#| echo: false
+#| results: asis
+#| message: false
+#| warning: false
+FileData |>
+  select(dataset, metadata) |>
+  gt() |>
+  fmt_markdown(everything()) |>
+  opt_interactive(
+    use_search = TRUE,
+    page_size_default = 50
+  )
+
+```
