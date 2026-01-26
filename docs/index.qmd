@@ -18,7 +18,7 @@ library(gt)
 
 FileData <-
   tibble::tibble(
-    file = dir(here("docs"), pattern = "*.csv$"),
+    file = dir(here("docs"), pattern = "*.csv$|*.dat$"),
     meta_file = sub("\\.csv$", ".html", file),
     meta_exists = file.exists(here("docs", "meta", meta_file)),
     metadata = case_when(
