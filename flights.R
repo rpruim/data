@@ -12,7 +12,17 @@ some_flights <-
     status = if_else(arr_delay <= 0, "on time", "delayed")
   ) |>
   drop_na() |>
-  select(carrier, destination = dest, status)
+  select(
+    year,
+    month,
+    day,
+    sched_dep_time,
+    carrier,
+    flight,
+    destination = dest,
+    status,
+    arr_delay
+  )
 
 write_csv(some_flights, "~/Courses/data/docs/some-flights.csv")
 
